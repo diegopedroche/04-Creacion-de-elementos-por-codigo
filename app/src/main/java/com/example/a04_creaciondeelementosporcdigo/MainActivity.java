@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.view.LayoutInflater;
 import android.view.View;
 
 
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     //2. Lógica para pintar elementos -> printarElementos();
 
     //3. Conjunto de datos
+
+    //4. Plantilla para mostrar los datos
+
     private ArrayList<Alumno> alumnosList;
 
     private ActivityResultLauncher<Intent> launcherCrearAlumnos;
@@ -77,9 +81,21 @@ public class MainActivity extends AppCompatActivity {
     private void pintarElementos() {
         binding.content.contenedor.removeAllViews();
         for (Alumno a : alumnosList){
-            TextView txtAlumno = new TextView(MainActivity.this);
-            txtAlumno.setText(a.toString());
-            binding.content.contenedor.addView(txtAlumno);
+
+            LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+            View alumnoView = inflater.inflate(R.layout.alumno_model_view, null);
+
+            //View alumnoView = LayoutInflater.from(MainActivity.this).inflate(R.layout.alumno_model_view, null);
+            TextView lbNombre = alumnoView.findViewById(R.id.lbNombreAlumnoView);
+            TextView lbApellidos = alumnoView.findViewById(R.id.lbApellidosAlumnoView);
+            TextView lbCiclo = alumnoView.findViewById(R.id.lbCicloAlumnoView);
+            TextView lbNGrupo = alumnoView.findViewById(R.id.lbGrupoAlumnoView);
+
+            lbNombre.setText(a.getNombre());
+            lbApellidos.setText(a.getApellidos());
+            lbCiclo.setText(a.getCiclo());
+            lbNGrupo.setText(String.valueOf(a.getGroup()));
+            binding.content.contenedor.addView(alumnoView);
         }
     }
 }
